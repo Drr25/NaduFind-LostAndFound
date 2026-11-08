@@ -1,4 +1,3 @@
-
 name: Deploy NADUfind to InfinityFree
 
 on:
@@ -16,6 +15,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # IDAGDAG ITO DITO
+      - name: Check FTP configuration
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.FTP_DIR }}
+        run: |
+          test -n "$FTP_SERVER" && echo "FTP_SERVER is set" || echo "FTP_SERVER is missing"
+          test -n "$FTP_USERNAME" && echo "FTP_USERNAME is set" || echo "FTP_USERNAME is missing"
+          test -n "$FTP_PASSWORD" && echo "FTP_PASSWORD is set" || echo "FTP_PASSWORD is missing"
+          test -n "$FTP_DIR" && echo "FTP_DIR is set" || echo "FTP_DIR is missing"
+
+      # ITO ANG FTP DEPLOYMENT
       - name: Deploy website using FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
