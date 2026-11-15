@@ -93,26 +93,32 @@ include '../includes/admin-header.php';
   @media print {
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-    html, body { background: #fff !important; font-size: 12px; min-height: 0; }
+    html, body { background: #fff !important; font-size: 12px; min-height: 0; width: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
     body { color: #000; }
 
     /* hide app chrome */
     .admin-sidebar, .admin-sidebar-overlay, .admin-topbar, .admin-sidebar-toggle,
     .dash-banner, .dash-print, .panel-link, .qa-section, .no-print { display: none !important; }
 
-    .admin-shell { display: block !important; min-height: 0; background: #fff; }
-    .admin-content { display: block; }
-    .admin-main { padding: 0 !important; max-width: none; margin: 0; }
+    .admin-shell { display: block !important; width: 100% !important; min-height: 0; background: #fff; margin: 0 !important; padding: 0 !important; }
+    .admin-content { display: block !important; width: 100% !important; min-width: 0 !important; margin: 0 !important; padding: 0 !important; transform: none !important; }
+    .admin-main { display: block !important; width: 100% !important; padding: 0 !important; max-width: none !important; margin: 0 !important; }
 
     /* show print-only blocks */
     .print-only { display: block !important; }
+    table.print-only { display: table !important; }
 
-    .print-header { text-align: center; border-bottom: 2px solid #0F2A47; padding-bottom: 10px; margin-bottom: 16px; }
-    .print-header h1 { margin: 0; font-size: 20px; color: #0F2A47; }
-    .print-header h2 { margin: 2px 0 6px; font-size: 14px; font-weight: 600; color: #333; }
-    .print-header p { margin: 0; font-size: 11px; color: #555; }
+    /* centered report header */
+    .print-only.print-header {
+      display: flex !important; flex-direction: column; align-items: center; justify-content: center;
+      width: 100%; box-sizing: border-box; margin: 0 0 16px 0; padding: 0 0 10px 0;
+      text-align: center; border-bottom: 2px solid #0F2A47;
+    }
+    .print-header h1 { margin: 0; font-size: 20px; color: #0F2A47; text-align: center; width: 100%; }
+    .print-header h2 { margin: 2px 0 6px; font-size: 14px; font-weight: 600; color: #333; text-align: center; width: 100%; }
+    .print-header p { margin: 0; font-size: 11px; color: #555; text-align: center; width: 100%; }
 
-    .print-summary { width: 100%; border-collapse: collapse; margin-bottom: 18px; min-width: 0; }
+    .print-summary { width: 100%; border-collapse: collapse; margin: 0 0 18px 0; min-width: 0; table-layout: auto; }
     .print-summary th, .print-summary td { border: 1px solid #999; padding: 6px 10px; font-size: 12px; text-align: left; white-space: normal; background: #fff; }
     .print-summary th { background: #EAF3FC !important; color: #0F2A47; text-transform: none; letter-spacing: 0; font-size: 12px; }
     .print-summary td.num { text-align: right; font-weight: 700; width: 90px; }
