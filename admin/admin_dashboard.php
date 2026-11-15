@@ -54,12 +54,132 @@ $recentItems  = $pdo->query('SELECT items.*, users.full_name FROM items JOIN use
 $recentClaims = $pdo->query('SELECT claims.*, items.item_name, users.full_name AS claimer_name FROM claims JOIN items ON items.id = claims.item_id JOIN users ON users.id = claims.claimer_id ORDER BY claims.created_at DESC LIMIT 5')->fetchAll();
 $recentUsers  = $pdo->query('SELECT * FROM users ORDER BY created_at DESC LIMIT 5')->fetchAll();
 
-$firstName = explode(' ', trim($_SESSION['full_name'] ?? 'Admin'))[0];
+$fullName  = trim($_SESSION['full_name'] ?? 'Admin');
+$firstName = explode(' ', $fullName)[0];
 
 $pageTitle = 'Dashboard';
 $activeNav = 'dashboard';
 include '../includes/admin-header.php';
 ?>
+
+<style>
+  /* ---------- Print button + Noted by input (screen) ---------- */
+  .dash-actions { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-right: 120px; }
+  .dash-actions .dash-cta { margin-right: 0; }
+  .dash-print {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; cursor: pointer;
+    background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.45);
+    font-family: var(--font-body); font-size: 1rem; font-weight: 800;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+  .dash-print:hover { background: rgba(255,255,255,.26); transform: translateY(-2px); }
+  .dash-print svg { width: 18px; height: 18px; }
+
+  .dash-noted { display: flex; flex-direction: column; gap: 3px; }
+  .dash-noted label { font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.75); padding-left: 14px; }
+  .dash-noted input {
+    width: 230px; padding: 11px 16px; border-radius: 999px; font-size: 1rem; font-family: var(--font-body); font-weight: 600;
+    background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.45);
+  }
+  .dash-noted input::placeholder { color: rgba(255,255,255,.6); }
+  .dash-noted input:focus { outline: none; background: rgba(255,255,255,.24); border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.2); }
+  @media (max-width: 800px) { .dash-actions { margin-right: 0; } .dash-noted input { width: 100%; } .dash-noted { width: 100%; } }
+
+  .print-only { display: none; }
+
+  /* ---------- Print layout ---------- */
+  @page { size: A4 portrait; margin: 12mm; }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    html, body { background: #fff !important; font-size: 12px; min-height: 0; }
+    body { color: #000; }
+
+    /* hide app chrome */
+    .admin-sidebar, .admin-sidebar-overlay, .admin-topbar, .admin-sidebar-toggle,
+    .dash-banner, .dash-print, .panel-link, .qa-section, .no-print { display: none !important; }
+
+    .admin-shell { display: block !important; min-height: 0; background: #fff; }
+    .admin-content { display: block; }
+    .admin-main { padding: 0 !important; max-width: none; margin: 0; }
+
+    /* show print-only blocks */
+    .print-only { display: block !important; }
+
+    .print-header { text-align: center; border-bottom: 2px solid #0F2A47; padding-bottom: 10px; margin-bottom: 16px; }
+    .print-header h1 { margin: 0; font-size: 20px; color: #0F2A47; }
+    .print-header h2 { margin: 2px 0 6px; font-size: 14px; font-weight: 600; color: #333; }
+    .print-header p { margin: 0; font-size: 11px; color: #555; }
+
+    .print-summary { width: 100%; border-collapse: collapse; margin-bottom: 18px; min-width: 0; }
+    .print-summary th, .print-summary td { border: 1px solid #999; padding: 6px 10px; font-size: 12px; text-align: left; white-space: normal; background: #fff; }
+    .print-summary th { background: #EAF3FC !important; color: #0F2A47; text-transform: none; letter-spacing: 0; font-size: 12px; }
+    .print-summary td.num { text-align: right; font-weight: 700; width: 90px; }
+
+    .print-sign { display: grid !important; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 50px; page-break-inside: avoid; }
+    .print-sign div { border-top: 1px solid #000; padding-top: 4px; text-align: center; font-size: 11px; }
+    .print-sign .sign-space { min-height: 40px; border-top: 0; padding-top: 0; }
+
+    /* titles */
+    .dash-section-title { font-size: 15px; margin: 14px 0 2px; color: #0F2A47; }
+    .dash-section-sub { font-size: 11px; margin: 0 0 8px; }
+
+    /* grids -> single column */
+    .dash-grid, .dash-grid.g-1-1, .dash-grid.g-2-1, .dash-grid.g-3-2 { display: block; margin-bottom: 0; }
+    .dash-grid > * { margin-bottom: 14px; }
+
+    /* stat tiles */
+    .stat-row { grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+    .stat-tile { padding: 10px; gap: 8px; box-shadow: none; border: 1px solid #999; color: #000; }
+    .stat-ico { width: 34px; height: 34px; border-radius: 8px; }
+    .stat-ico svg { width: 18px; height: 18px; }
+    .stat-num { font-size: 1.4rem; }
+    .stat-label { font-size: 10px; }
+
+    /* panels */
+    .panel { box-shadow: none; border: 1px solid #999; border-radius: 6px; page-break-inside: avoid; break-inside: avoid; }
+    .panel-head { padding: 8px 12px; }
+    .panel-title { font-size: 13px; }
+    .panel-body { padding: 12px; }
+    .panel-empty { padding: 14px; }
+    .list-row { padding: 8px 12px; }
+
+    /* tables */
+    table { min-width: 0 !important; }
+    th, td { white-space: normal !important; padding: 6px 8px; font-size: 11px; }
+    .table-wrap { overflow: visible; box-shadow: none; }
+    tr { page-break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+
+    /* chart + meters */
+    .chart { height: 170px; }
+    .meter-fill { animation: none !important; }
+    .chart-bar:hover { transform: none; }
+    .avatar { width: 28px; height: 28px; font-size: .85rem; }
+  }
+</style>
+
+<!-- ========== Print-only report header ========== -->
+<div class="print-only print-header">
+  <h1><?= clean(SITE_NAME) ?></h1>
+  <h2>Admin Dashboard Report</h2>
+  <p>Generated: <?= date('F j, Y \a\t g:i A') ?> &middot; Prepared by: <?= clean($fullName) ?></p>
+</div>
+
+<!-- ========== Print-only summary table ========== -->
+<table class="print-only print-summary">
+  <thead><tr><th colspan="2">Summary</th></tr></thead>
+  <tbody>
+    <tr><td>Total Reports</td><td class="num"><?= $totalItems ?></td></tr>
+    <tr><td>Pending Verification</td><td class="num"><?= $pendingVerify ?></td></tr>
+    <tr><td>Pending Claims</td><td class="num"><?= $pendingClaims ?></td></tr>
+    <tr><td>Approved Claims Awaiting Handover</td><td class="num"><?= $awaitingHandover ?></td></tr>
+    <tr><td>Registered Users</td><td class="num"><?= $totalUsers ?></td></tr>
+    <tr><td>Items Returned</td><td class="num"><?= $totalReturned ?></td></tr>
+    <tr><td>Claims: Approved / Rejected / Pending</td><td class="num"><?= $claimCounts['Approved'] ?> / <?= $claimCounts['Rejected'] ?> / <?= $claimCounts['Pending'] ?></td></tr>
+  </tbody>
+</table>
 
 <!-- ========== Welcome banner ========== -->
 <section class="dash-banner">
@@ -71,9 +191,19 @@ include '../includes/admin-header.php';
     <h2>Welcome back, <?= clean($firstName) ?>! 👋</h2>
     <p>Here's what's happening in <?= clean(SITE_NAME) ?> today. <?= $totalReturned ?> item<?= $totalReturned === 1 ? '' : 's' ?> returned to their owners so far.</p>
   </div>
-  <?php if ($pendingVerify > 0): ?>
-    <a class="dash-cta" href="manage-items.php?filter=pending">Review <?= $pendingVerify ?> pending <?= adminIcon('arrow') ?></a>
-  <?php endif; ?>
+  <div class="dash-actions">
+    <?php if ($pendingVerify > 0): ?>
+      <a class="dash-cta" href="manage-items.php?filter=pending">Review <?= $pendingVerify ?> pending <?= adminIcon('arrow') ?></a>
+    <?php endif; ?>
+    <div class="dash-noted">
+      <label for="notedByInput">Noted by (para sa print)</label>
+      <input type="text" id="notedByInput" maxlength="80" placeholder="Type name here" autocomplete="off">
+    </div>
+    <button type="button" class="dash-print" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/></svg>
+      Print Report
+    </button>
+  </div>
 </section>
 
 <!-- ========== Overview ========== -->
@@ -258,7 +388,7 @@ include '../includes/admin-header.php';
     </div>
   </section>
 
-  <section class="panel">
+  <section class="panel qa-section">
     <div class="panel-head">
       <h3 class="panel-title"><?= adminIcon('check') ?> Quick actions</h3>
     </div>
@@ -274,5 +404,35 @@ include '../includes/admin-header.php';
     </div>
   </section>
 </div>
+
+<!-- ========== Print-only signature lines ========== -->
+<div class="print-only print-sign" style="display:none;">
+  <div>Prepared by:<br><strong><?= clean($fullName) ?></strong></div>
+  <div>Noted by:<br><strong id="notedByPrint">&nbsp;</strong></div>
+</div>
+
+<script>
+(function () {
+  var input = document.getElementById('notedByInput');
+  var out   = document.getElementById('notedByPrint');
+  var KEY   = 'dashboardNotedBy';
+  if (!input || !out) return;
+
+  function sync() {
+    var v = input.value.trim();
+    out.textContent = v !== '' ? v : '\u00A0';
+  }
+
+  try { input.value = localStorage.getItem(KEY) || ''; } catch (e) {}
+  sync();
+
+  input.addEventListener('input', function () {
+    sync();
+    try { localStorage.setItem(KEY, input.value); } catch (e) {}
+  });
+
+  window.addEventListener('beforeprint', sync);
+})();
+</script>
 
 <?php include '../includes/admin-footer.php'; ?>
