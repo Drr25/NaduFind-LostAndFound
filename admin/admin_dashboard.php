@@ -196,7 +196,7 @@ include '../includes/admin-header.php';
       <a class="dash-cta" href="manage-items.php?filter=pending">Review <?= $pendingVerify ?> pending <?= adminIcon('arrow') ?></a>
     <?php endif; ?>
     <div class="dash-noted">
-      <label for="notedByInput">Noted by (para sa print)</label>
+      <label for="notedByInput">Noted by (For Printing)</label>
       <input type="text" id="notedByInput" maxlength="80" placeholder="Type name here" autocomplete="off">
     </div>
     <button type="button" class="dash-print" onclick="window.print()">
