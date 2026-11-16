@@ -7,8 +7,8 @@
  * Optional: set $pageTitle before including.
  */
 $_h_root  = dirname(__DIR__);
-$_h_title = $pageTitle ?? 'NaduFind';
-$_h_site  = defined('SITE_NAME') ? SITE_NAME : 'NaduFind';
+$_h_title = $pageTitle ?? 'Lost & Found';
+$_h_site  = defined('SITE_NAME') ? SITE_NAME : 'Lost & Found';
 
 /* stylesheet auto-detect */
 $_h_css = null;
