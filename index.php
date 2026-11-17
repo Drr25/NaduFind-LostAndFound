@@ -47,7 +47,7 @@ include 'includes/pub_header.php';
   <section class="hero">
     <div class="hero-inner">
       <h1>Lost something? Someone may have found it.</h1>
-      <p>Search verified reports from the <?= clean($pfSite) ?> community and get reunited with your belongings.</p>
+      <p>Search verified reports from the <?= clean(SITE_NAME) ?> community and get reunited with your belongings.</p>
       <form class="hero-search" id="heroSearchForm" method="GET" action="index.php" role="search">
         <input type="text" id="heroKeyword" name="keyword" value="<?= clean($keyword) ?>" placeholder="Search item name, description, or location..." aria-label="Search items">
         <button type="submit" class="btn btn-gold">Search</button>
