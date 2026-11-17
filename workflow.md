@@ -32,7 +32,7 @@ Registration and login are handled in `login.php` (the signup tab); `register.ph
 2. Choose **Lost Item** or **Found Item**, then provide its name, category, description, location, and date. A photo is optional.
 3. The application validates required details and, if supplied, accepts JPG, PNG, GIF, or WEBP photos up to 5 MB.
 4. The report is saved with `is_verified = 0`. Its initial status is `Lost` or `Found`, matching the report type, and that initial status is written to `item_status_log`.
-5. The user can track verification and status on `my-items.php`. Admin verification is require before the report appears in public browse result.
+5. The user can track verification and status on `my-items.php`. Admin verification is require before the repor appears in public browse result.
 
 ### Claim a found item
 
