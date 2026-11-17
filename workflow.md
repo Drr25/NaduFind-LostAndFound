@@ -7,7 +7,7 @@ NADUfind is a PHP application backed by MySQL. It lets users browse verified los
 The main request flow is:
 
 1. A PHP page starts or reads the user's session and loads shared database, helper, and access-control code as needed.
-2. The page reads or updates records in MySQL through the shared PDO connection in `config/db.php`.
+2. The page reads or updates records in MySQL through the shared PDO connection in `config/db.php`
 3. HTML pages render the result. `api/search.php` also provides filtered verified items as JSON.
 
 ## Roles and Access
