@@ -1,51 +1,72 @@
 # NADUfind – Lost and Found Management System
 
-NADUfind is a web-based Lost and Found Management System designed to help users report, search, and manage lost and found items efficiently. The platform provides user authentication, item reporting, claim submission, and administrative management features.
+NADUfind is a web-based Lost and Found Management System designed to simplify the process of reporting, locating, and recovering lost belongings. The platform provides a centralized system where users can report lost or found items, search for reported belongings, submit ownership claims, and monitor the status of their submissions.
 
-## Features
+It also includes an administrative dashboard that allows administrators to manage users, verify item reports, process claims, and oversee the overall system.
 
-### User Authentication
+---
+
+## 1. Features and Functionalities
+
+### User Authentication and Account Management
 - Secure user registration and login.
 - Password hashing and session management.
 - User profile management.
+- Account-based access to reporting and claim functionalities.
 
-### Item Reporting
-- Report lost and found items.
+### Lost and Found Item Reporting
+- Submit reports for lost and found items.
 - Provide item descriptions, categories, locations, and dates.
-- Upload item photos.
+- Upload item photos to help identify reported belongings.
+- Manage personal item reports.
 
 ### Search and Filtering
-- Search items using keywords.
+- Search reported items using keywords.
 - Filter items by type, category, and status.
-- AJAX-based search functionality.
+- AJAX-based search functionality for improved browsing.
+- View detailed information about reported items.
 
 ### Claims Management
 - Submit claims for found items.
-- Provide proof-of-ownership details.
-- Track claim status.
+- Provide proof-of-ownership details to support claims.
+- Track the status of submitted claims.
+- View personal claim records.
 
-### Admin Dashboard
-- Manage registered users.
-- Verify and manage item reports.
-- Approve or reject submitted claims.
-- Monitor item and claim records.
+### Administrative Dashboard
+- Manage registered user accounts.
+- Review, verify, and manage item reports.
+- Approve or reject submitted ownership claims.
+- Monitor item reports and claim records.
+- Oversee lost and found activities within the system.
 
 ### Item Status Tracking
-- Track item statuses: Lost, Found, Claimed, and Returned.
-- Monitor changes in item records.
+- Track item statuses throughout the recovery process:
+  - **Lost** – An item has been reported missing.
+  - **Found** – An item has been reported as found.
+  - **Claimed** – A claim has been submitted or associated with the item.
+  - **Returned** – The item has been successfully returned to its owner.
+- Monitor changes in item records and their current statuses.
 
-## Technology Stack
+---
 
-- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap
-- **Backend:** PHP
-- **Database:** MySQL
-- **Local Development:** XAMPP
-- **Hosting:** InfinityFree
+## 2. Technology Stack
 
-## Project Structure
+| Component | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, JavaScript, Bootstrap |
+| Backend | PHP |
+| Database | MySQL |
+| Local Development Environment | XAMPP |
+| Web Hosting | InfinityFree |
+| Asynchronous Requests | AJAX |
+
+---
+
+## 3. Project Structure
 
 ```text
 lost-found-system/
+│
 ├── admin/                  # Administrative modules
 ├── api/                    # AJAX search endpoints
 ├── asset/                  # Bootstrap resources and libraries
@@ -53,49 +74,110 @@ lost-found-system/
 ├── config/                 # Database configuration
 ├── includes/               # Shared PHP components
 ├── uploads/                # Uploaded item photos
+│
 ├── database.sql            # Database structure
 ├── migration.sql           # Database migrations
+│
 ├── index.php               # Main page
 ├── login.php               # User login
 ├── register.php            # User registration
-├── report-item.php         # Item reporting
+├── report-item.php         # Lost and found item reporting
 ├── item-details.php        # Item details
 ├── claim-item.php          # Claim submission
-├── my-items.php            # User reported items
-├── my-claims.php           # User claims
-└── profile.php             # User profile
+├── my-items.php            # User-reported items
+├── my-claims.php           # User-submitted claims
+└── profile.php             # User profile management
 ```
 
-## Installation and Setup
+---
 
-1. Install XAMPP with Apache and MySQL.
-2. Copy the project folder into `htdocs`.
-3. Start Apache and MySQL through the XAMPP Control Panel.
-4. Create a MySQL database.
-5. Import `database.sql` using phpMyAdmin.
-6. Configure the database connection using your local database settings.
-7. Open the application in your browser:
+## 4. Installation and Setup
 
-```text
-http://localhost/lost-found-system/
-```
+### Prerequisites
+- XAMPP
+- Apache Web Server
+- MySQL Database
+- PHP
+- A modern web browser
 
-## Hosting
+### Local Installation
 
-NADUfind is hosted using InfinityFree with PHP and MySQL support.
+1. Install XAMPP on your computer.
 
-The hosted application requires the appropriate database configuration and an active internet connection.
+2. Copy the `lost-found-system` project folder into the XAMPP `htdocs` directory:
 
-## Future Improvements
+   ```text
+   C:\xampp\htdocs\
+   ```
 
-- Email notifications for claim updates.
-- Additional security enhancements.
-- Improved search and filtering.
-- Additional reporting and analytics features.
+3. Open the XAMPP Control Panel and start:
+   - Apache
+   - MySQL
 
-## Project Information
+4. Open phpMyAdmin in your browser:
 
-**Project Name:** NADUfind  
-**Project Type:** Web-Based Lost and Found Management System  
-**Backend:** PHP  
-**Database:** MySQL
+   ```text
+   http://localhost/phpmyadmin/
+   ```
+
+5. Create a MySQL database for the application.
+
+6. Import the `database.sql` file through phpMyAdmin.
+
+7. If applicable, execute `migration.sql` to apply the additional database changes.
+
+8. Configure the database connection in the appropriate file inside the `config/` directory using your local MySQL credentials.
+
+9. Open NADUfind in your browser:
+
+   ```text
+   http://localhost/lost-found-system/
+   ```
+
+The application should now be accessible through your local XAMPP environment.
+
+---
+
+## 5. Web Hosting and Deployment
+
+NADUfind is deployed using **InfinityFree**, a web hosting platform that supports PHP and MySQL.
+
+The hosted application requires:
+- Properly configured hosting database credentials.
+- The correct database connection settings.
+- Uploaded project files in the appropriate hosting directory.
+- An active internet connection to access the hosted application.
+
+When deploying the application, make sure the database configuration matches the credentials and database information provided by InfinityFree.
+
+---
+
+## 6. Future Enhancements
+
+The following improvements may be considered for future development:
+
+- **Email Notifications** – Notify users about claim approvals, rejections, and item status updates.
+- **Enhanced Security** – Introduce additional security measures for authentication, file uploads, and user data protection.
+- **Improved Search and Filtering** – Provide more advanced search options for faster item discovery.
+- **Reporting and Analytics** – Add statistical reports and visual dashboards to monitor lost and found activities.
+- **User Experience Improvements** – Enhance the interface, navigation, and responsiveness across different devices.
+
+---
+
+## 7. Project Information
+
+| Information | Details |
+|---|---|
+| Project Name | NADUfind |
+| Project Type | Web-Based Lost and Found Management System |
+| Backend | PHP |
+| Database | MySQL |
+| Frontend | HTML5, CSS3, JavaScript, Bootstrap |
+| Development Environment | XAMPP |
+| Hosting Platform | InfinityFree |
+
+---
+
+**NADUfind – Report It. Find It. Get It Back.*
+
+A centralized platform  makes reporting lost belongings, finding reported items, and managing ownership claims easier and more organized.
