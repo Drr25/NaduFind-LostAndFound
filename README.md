@@ -178,6 +178,6 @@ The following improvements may be considered for future development:
 
 ---
 
-**NADUfind – Report It. Find It. Get It Back.*
+**NADUfind – Report It. Find It. Get  Back.**
 
-A centralized platform  makes reporting lost belongings, finding reported items, and managing ownership claims easier and more organized.
+A centralized platform that makes reporting lost belongings, finding reported items, and managing ownership claims easier and more organized.
