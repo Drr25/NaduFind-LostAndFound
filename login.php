@@ -119,6 +119,7 @@ function lgField(string $id, string $name, string $type, string $label, string $
 $pageTitle = $activeTab === 'signup' ? 'Sign Up' : 'Log In';
 $bodyClass = 'page-auth';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,124 +131,233 @@ $bodyClass = 'page-auth';
   <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="<?= clean($bodyClass) ?>">
+
+<body class="<?= clean($bodyClass) ?>" style="background-color: #eaf3ff; color: #163b66;">
+
 <main class="container">
 
-<div class="lg-page">
+<div class="lg-page" style="background-color: #eaf3ff;">
 
-  <a class="lg-brand" href="index.php">
-    <span class="lg-logo">
+  <a class="lg-brand" href="index.php" style="color: #164b91;">
+
+    <span class="lg-logo" style="color: #2563eb;">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M11 4h13a2 2 0 0 1 2 2v10.5a2 2 0 0 1-.6 1.4L14.9 28.4a2 2 0 0 1-2.8 0L4.6 20.9a2 2 0 0 1 0-2.8L11.6 11" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
         <circle cx="11" cy="9" r="2.25" stroke="currentColor" stroke-width="2"/>
       </svg>
     </span>
-    <span class="lg-wordmark"><?= clean(SITE_NAME) ?></span>
-    <span class="lg-tagline">Find what's lost. Return what's found.</span>
+
+    <span class="lg-wordmark" style="color: #164b91;">
+      <?= clean(SITE_NAME) ?>
+    </span>
+
+    <span class="lg-tagline" style="color: #52749e;">
+      Find what's lost. Return what's found.
+    </span>
+
   </a>
 
-  <div class="lg-card">
+  <div class="lg-card" style="background-color: #ffffff; border-color: #bfdbfe;">
 
 <?php if ($activeTab === 'login'): ?>
+
     <!-- ================= LOG IN ================= -->
-    <h1 class="lg-title">Sign in to your account</h1>
+
+    <h1 class="lg-title" style="color: #164b91;">
+      Sign in to your account
+    </h1>
 
     <?php foreach ($loginErrors as $e): ?>
       <div class="alert alert-error" role="alert"><?= clean($e) ?></div>
     <?php endforeach; ?>
 
     <form method="POST" class="lg-form" novalidate>
+
       <input type="hidden" name="mode" value="login">
 
       <?= lgField('email', 'email', 'email', 'Email address', 'mail', 'you@example.com', $oldEmail, 'email') ?>
+
       <?= lgField('password', 'password', 'password', 'Password', 'lock', 'Enter your password', '', 'current-password') ?>
 
-      <label class="lg-check">
+      <label class="lg-check" style="color: #365a82;">
+
         <input type="checkbox" name="agree" value="1" <?= $agreedLogin ? 'checked' : '' ?>>
-        <span>I have read and agree to <?= clean(SITE_NAME) ?>'s
-          <button type="button" class="lg-link" data-open-privacy>Data Privacy Agreement</button>,
-          in accordance with the Data Privacy Act of 2012 (RA 10173).</span>
+
+        <span>
+          I have read and agree to <?= clean(SITE_NAME) ?>'s
+
+          <button type="button" class="lg-link" data-open-privacy style="color: #2563eb;">
+            Data Privacy Agreement
+          </button>,
+
+          in accordance with the Data Privacy Act of 2012 (RA 10173).
+        </span>
+
       </label>
 
       <div class="lg-actions">
-        <button type="submit" class="lg-btn lg-btn-primary"><?= lgIcon('login', 'lg-btn-icon') ?> Sign In</button>
-        <a href="index.php" class="lg-btn lg-btn-ghost"><?= lgIcon('back', 'lg-btn-icon') ?> Back</a>
+
+        <button type="submit" class="lg-btn lg-btn-primary" style="background-color: #2563eb; color: #ffffff; border-color: #2563eb;">
+          <?= lgIcon('login', 'lg-btn-icon') ?> Sign In
+        </button>
+
+        <a href="index.php" class="lg-btn lg-btn-ghost" style="background-color: #dbeafe; color: #1d4ed8; border-color: #bfdbfe;">
+          <?= lgIcon('back', 'lg-btn-icon') ?> Back
+        </a>
+
       </div>
+
     </form>
 
-    <p class="lg-switch">No account yet? <a href="login.php?tab=signup">Create one</a></p>
+    <p class="lg-switch" style="color: #365a82;">
+      No account yet?
+      <a href="login.php?tab=signup" style="color: #2563eb;">Create one</a>
+    </p>
 
 <?php else: ?>
+
     <!-- ================= SIGN UP ================= -->
-    <h1 class="lg-title">Create your account</h1>
+
+    <h1 class="lg-title" style="color: #164b91;">
+      Create your account
+    </h1>
 
     <?php foreach ($registerErrors as $e): ?>
       <div class="alert alert-error" role="alert"><?= clean($e) ?></div>
     <?php endforeach; ?>
 
     <form method="POST" class="lg-form" novalidate>
+
       <input type="hidden" name="mode" value="register">
 
       <?= lgField('full_name', 'full_name', 'text', 'Full name', 'user', 'Juan Dela Cruz', $old['full_name'], 'name') ?>
+
       <?= lgField('reg_email', 'email', 'email', 'Email address', 'mail', 'you@example.com', $old['email'], 'email') ?>
+
       <?= lgField('phone', 'phone', 'tel', 'Phone number (optional)', 'phone', '09XX XXX XXXX', $old['phone'], 'tel') ?>
+
       <?= lgField('reg_password', 'password', 'password', 'Password', 'lock', 'At least 6 characters', '', 'new-password') ?>
+
       <?= lgField('confirm_password', 'confirm_password', 'password', 'Confirm password', 'lock', 'Re-enter your password', '', 'new-password') ?>
 
-      <label class="lg-check">
+      <label class="lg-check" style="color: #365a82;">
+
         <input type="checkbox" name="agree" value="1" <?= $agreedRegister ? 'checked' : '' ?>>
-        <span>I have read and agree to <?= clean(SITE_NAME) ?>'s
-          <button type="button" class="lg-link" data-open-privacy>Data Privacy Agreement</button>,
-          in accordance with the Data Privacy Act of 2012 (RA 10173).</span>
+
+        <span>
+          I have read and agree to <?= clean(SITE_NAME) ?>'s
+
+          <button type="button" class="lg-link" data-open-privacy style="color: #2563eb;">
+            Data Privacy Agreement
+          </button>,
+
+          in accordance with the Data Privacy Act of 2012 (RA 10173).
+        </span>
+
       </label>
 
       <div class="lg-actions">
-        <button type="submit" class="lg-btn lg-btn-primary"><?= lgIcon('userplus', 'lg-btn-icon') ?> Create Account</button>
-        <a href="index.php" class="lg-btn lg-btn-ghost"><?= lgIcon('back', 'lg-btn-icon') ?> Back</a>
+
+        <button type="submit" class="lg-btn lg-btn-primary" style="background-color: #2563eb; color: #ffffff; border-color: #2563eb;">
+          <?= lgIcon('userplus', 'lg-btn-icon') ?> Create Account
+        </button>
+
+        <a href="index.php" class="lg-btn lg-btn-ghost" style="background-color: #dbeafe; color: #1d4ed8; border-color: #bfdbfe;">
+          <?= lgIcon('back', 'lg-btn-icon') ?> Back
+        </a>
+
       </div>
+
     </form>
 
-    <p class="lg-switch">Already registered? <a href="login.php?tab=login">Sign in</a></p>
+    <p class="lg-switch" style="color: #365a82;">
+      Already registered?
+      <a href="login.php?tab=login" style="color: #2563eb;">Sign in</a>
+    </p>
+
 <?php endif; ?>
 
   </div>
 </div>
 
+
 <?php
 /* SAMPLE TEXT: review and edit this so it matches how your system really handles personal data
    (who can see it, how long it is kept, etc.) before going live. */
 ?>
+
 <dialog id="privacyDialog" class="lg-dialog" aria-labelledby="privacyTitle">
-  <div class="lg-dialog-inner">
-    <h2 id="privacyTitle">Data Privacy Agreement</h2>
-    <p>In accordance with the Data Privacy Act of 2012 (RA 10173), <?= clean(SITE_NAME) ?> collects and processes the following information:</p>
+
+  <div class="lg-dialog-inner" style="background-color: #ffffff; color: #163b66; border-color: #bfdbfe;">
+
+    <h2 id="privacyTitle" style="color: #164b91;">
+      Data Privacy Agreement
+    </h2>
+
+    <p>
+      In accordance with the Data Privacy Act of 2012 (RA 10173), <?= clean(SITE_NAME) ?> collects and processes the following information:
+    </p>
+
     <ul>
       <li>Your name, email address, and optional phone number, used to run your account and contact you about reports and claims.</li>
+
       <li>The item details, photos, and proof-of-ownership information you submit when reporting or claiming an item.</li>
     </ul>
-    <p>This information is used only to post and verify lost-and-found items and to return them to their owners. It is accessible to authorized administrators and is not sold or shared with outside parties. You may ask an administrator to correct or delete your data at any time.</p>
-    <form method="dialog"><button class="lg-btn lg-btn-primary">I understand</button></form>
+
+    <p>
+      This information is used only to post and verify lost-and-found items and to return them to their owners. It is accessible to authorized administrators and is not sold or shared with outside parties. You may ask an administrator to correct or delete your data at any time.
+    </p>
+
+    <form method="dialog">
+
+      <button class="lg-btn lg-btn-primary" style="background-color: #2563eb; color: #ffffff; border-color: #2563eb;">
+        I understand
+      </button>
+
+    </form>
+
   </div>
+
 </dialog>
+
 
 <script>
 (function () {
+
   // Show / hide password
   document.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
+
     btn.addEventListener('click', function () {
+
       var input = document.getElementById(btn.getAttribute('data-toggle-password'));
+
       var show = input.type === 'password';
+
       input.type = show ? 'text' : 'password';
+
       btn.classList.toggle('is-on', show);
+
       btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+
       btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+
     });
+
   });
+
   // Privacy agreement dialog
   var dlg = document.getElementById('privacyDialog');
+
   document.querySelectorAll('[data-open-privacy]').forEach(function (b) {
-    b.addEventListener('click', function () { if (dlg && dlg.showModal) dlg.showModal(); });
+
+    b.addEventListener('click', function () {
+
+      if (dlg && dlg.showModal) dlg.showModal();
+
+    });
+
   });
+
 })();
 </script>
 
